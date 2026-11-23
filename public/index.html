@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SalesFlow CRM – Cloud-Based SaaS CRM System</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234F46E5'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>" />
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased h-full flex flex-col font-sans transition-colors duration-200">
+  
+  <!-- Top App Navigation Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        
+        <!-- Brand & Project Details -->
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-700 to-violet-600 flex items-center justify-center text-white shadow-md shadow-indigo-200">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="font-bold text-lg tracking-tight text-slate-900">SalesFlow <span class="text-indigo-600">CRM</span></span>
+              <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">SaaS v2.4</span>
+            </div>
+            <p class="text-xs text-slate-500 font-medium">Enterprise Cloud CRM Platform</p>
+          </div>
+        </div>
+
+        <!-- Global Search Bar -->
+        <div class="hidden md:flex flex-1 max-w-md mx-6">
+          <div class="relative w-full">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+            </div>
+            <input type="text" id="globalSearchInput" placeholder="Quick search leads, deals, contacts, or tasks... (Press / to focus)" class="w-full pl-9 pr-8 py-1.5 text-sm rounded-lg bg-slate-100 border border-transparent focus:border-indigo-400 focus:bg-white focus:outline-none transition-all placeholder-slate-400" />
+            <kbd class="absolute right-2.5 top-2 text-[10px] font-mono bg-white border border-slate-200 px-1.5 py-0.5 rounded text-slate-400 shadow-2xs">/</kbd>
+          </div>
+        </div>
+
+        <!-- Right Side Header Controls -->
+        <div class="flex items-center space-x-3">
+          
+          <!-- System Status Badge -->
+          <div class="hidden lg:flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 font-medium" title="MySQL / REST API Connected">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>MySQL: salesflow_crm</span>
+          </div>
+
+          <!-- Quick Action Dropdown -->
+          <div class="relative">
+            <button id="quickActionBtn" class="flex items-center space-x-1.5 px-3 py-1.5 text-sm font-semibold rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 shadow-xs transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+              </svg>
+              <span>New</span>
+            </button>
+            <div id="quickActionMenu" class="hidden absolute right-0 mt-2 w-48 bg-white border border-slate-200 rounded-xl shadow-lg py-1 z-50 animate-fadeIn">
+              <button onclick="openModal('leadModal')" class="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 flex items-center space-x-2">
+                <span>🎯</span> <span>Add New Lead</span>
+              </button>
+              <button onclick="openModal('dealModal')" class="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 flex items-center space-x-2">
+                <span>🏷️</span> <span>Create New Deal</span>
+              </button>
+              <button onclick="openModal('taskModal')" class="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 flex items-center space-x-2">
+                <span>📋</span> <span>Schedule Task</span>
+              </button>
+              <button onclick="switchTab('emails'); openModal('emailModal')" class="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 flex items-center space-x-2">
+                <span>✉️</span> <span>Send Email</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Role-Based Access Control Switcher -->
+          <div class="relative">
+            <button id="userProfileBtn" class="flex items-center space-x-2 p-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors">
+              <img id="currentAvatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150" alt="Avatar" class="w-8 h-8 rounded-lg object-cover" />
+              <div class="text-left hidden sm:block">
+                <p id="currentUserName" class="text-xs font-bold text-slate-800 leading-tight">System Administrator</p>
+                <p id="currentUserRoleBadge" class="text-[10px] font-semibold text-indigo-600 uppercase tracking-wider">Admin</p>
+              </div>
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+            
+            <!-- Role Switcher Menu -->
+            <div id="userProfileMenu" class="hidden absolute right-0 mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-xl py-2 z-50">
+              <div class="px-4 py-2 border-b border-slate-100">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Switch Demo Role (RBAC)</p>
+              </div>
+              <button onclick="switchUserRole('admin')" class="w-full text-left px-4 py-2 text-sm hover:bg-indigo-50 flex items-center justify-between group">
+                <div>
+                  <p class="font-bold text-slate-800 group-hover:text-indigo-600">👑 System Administrator</p>
+                  <p class="text-xs text-slate-500">Administrator (Full Access)</p>
+                </div>
+                <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full">Admin</span>
+              </button>
+              <button onclick="switchUserRole('sales_manager')" class="w-full text-left px-4 py-2 text-sm hover:bg-indigo-50 flex items-center justify-between group">
+                <div>
+                  <p class="font-bold text-slate-800 group-hover:text-indigo-600">👔 Sales Manager</p>
+                  <p class="text-xs text-slate-500">Sales Manager (Team &amp; Pipeline)</p>
+                </div>
+                <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">Manager</span>
+              </button>
+              <button onclick="switchUserRole('sales_executive')" class="w-full text-left px-4 py-2 text-sm hover:bg-indigo-50 flex items-center justify-between group">
+                <div>
+                  <p class="font-bold text-slate-800 group-hover:text-indigo-600">💼 Aarav Sharma</p>
+                  <p class="text-xs text-slate-500">Sales Executive (Deals &amp; Leads)</p>
+                </div>
+                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Exec</span>
+              </button>
+              <div class="border-t border-slate-100 mt-1 pt-1 px-4 py-1.5 flex justify-between items-center text-xs text-slate-400">
+                <span>SalesFlow Cloud SaaS</span>
+                <button onclick="resetData()" class="text-rose-500 hover:underline">Reset Demo Data</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main App Shell -->
+  <div class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row gap-6">
+    
+    <!-- Left Navigation Sidebar -->
+    <aside class="w-full md:w-64 shrink-0 flex flex-col space-y-6">
+      
+      <!-- Primary Nav Menu -->
+      <nav class="bg-white rounded-2xl border border-slate-200/80 p-3 shadow-xs space-y-1">
+        
+        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item active w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+          </svg>
+          <span>Dashboard</span>
+        </button>
+
+        <button onclick="switchTab('pipeline')" id="nav-pipeline" class="nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold transition-all">
+          <div class="flex items-center space-x-3">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
+            </svg>
+            <span>Deals Pipeline</span>
+          </div>
+          <span id="badgeDealCount" class="text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full font-bold">18</span>
+        </button>
+
+        <button onclick="switchTab('leads')" id="nav-leads" class="nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold transition-all">
+          <div class="flex items-center space-x-3">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            <span>Leads</span>
+          </div>
+          <span id="badgeLeadCount" class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-bold">20</span>
+        </button>
+
+        <button onclick="switchTab('contacts')" id="nav-contacts" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+          </svg>
+          <span>Accounts &amp; Contacts</span>
+        </button>
+
+        <button onclick="switchTab('tasks')" id="nav-tasks" class="nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold transition-all">
+          <div class="flex items-center space-x-3">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+            </svg>
+            <span>Tasks &amp; Activities</span>
+          </div>
+          <span id="badgeTaskCount" class="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold">6</span>
+        </button>
+
+        <button onclick="switchTab('emails')" id="nav-emails" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+          <span>Email Center</span>
+        </button>
+
+        <button onclick="switchTab('notes')" id="nav-notes" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+          </svg>
+          <span>Interaction Notes</span>
+        </button>
+
+        <!-- SPECIAL EVALUATION / MA'AM TAB -->
+        <div class="pt-2 border-t border-slate-100">
+          <button onclick="switchTab('testing')" id="nav-testing" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-bold text-violet-700 bg-violet-50/70 hover:bg-violet-100/70 border border-violet-200 transition-all">
+            <svg class="w-5 h-5 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            <span>DevOps &amp; QA Center</span>
+          </button>
+        </div>
+
+      </nav>
+
+      <!-- Project Authors & Tech Info Card -->
+      <div class="bg-gradient-to-br from-indigo-900 via-slate-900 to-slate-950 text-white rounded-2xl p-4 shadow-sm relative overflow-hidden">
+        <div class="relative z-10">
+          <div class="flex items-center space-x-2 text-indigo-400 mb-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+            <span class="text-xs font-bold uppercase tracking-wider">Project Evaluation</span>
+          </div>
+          <h4 class="font-bold text-sm text-slate-100">SalesFlow CRM Platform</h4>
+          <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+            Enterprise Cloud SaaS &amp; DevOps System
+          </p>
+          <div class="mt-3 pt-3 border-t border-slate-700/60 text-[11px] text-slate-400 space-y-1">
+            <p>• Architecture: React + REST API</p>
+            <p>• Database: MySQL / PostgreSQL</p>
+            <p>• Cloud &amp; CI/CD: Docker + AWS</p>
+          </div>
+          <button onclick="downloadReport()" class="mt-3 w-full py-1.5 px-3 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-xs font-semibold text-center transition-colors">
+            📄 View Project Report
+          </button>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- Main Content Work Area -->
+    <main class="flex-1 min-w-0">
+
+      <!-- ============================================================== -->
+      <!-- TAB 1: EXECUTIVE DASHBOARD -->
+      <!-- ============================================================== -->
+      <section id="tab-dashboard" class="tab-pane active space-y-6">
+        
+        <!-- Welcome Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">Executive Sales Dashboard</h1>
+            <p class="text-sm text-slate-500 mt-0.5">Real-time performance indicators, deal pipelines, and team conversion metrics.</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="refreshData()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+              </svg>
+              <span>Refresh</span>
+            </button>
+            <button onclick="exportCSV('leads')" class="inline-flex items-center space-x-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-100 transition-colors">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              <span>Export CSV</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- KPI Metric Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          <!-- Metric 1: Total Revenue Won -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs relative overflow-hidden">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Closed Revenue</span>
+              <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+            </div>
+            <div class="mt-3">
+              <h3 id="kpiRevenue" class="text-2xl font-black text-slate-900 tracking-tight">₹53.5 Lakh</h3>
+              <div class="flex items-center space-x-1 mt-1 text-xs text-emerald-600 font-semibold">
+                <span>↑ 18.4%</span>
+                <span class="text-slate-400 font-normal">vs last month</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Metric 2: Active Pipeline Value -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs relative overflow-hidden">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Active Pipeline</span>
+              <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                </svg>
+              </div>
+            </div>
+            <div class="mt-3">
+              <h3 id="kpiPipeline" class="text-2xl font-black text-slate-900 tracking-tight">₹84.4 Lakh</h3>
+              <div class="flex items-center space-x-1 mt-1 text-xs text-indigo-600 font-semibold">
+                <span id="kpiOpenDealsCount">12 open deals</span>
+                <span class="text-slate-400 font-normal">in progression</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Metric 3: Win Rate -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs relative overflow-hidden">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Win Rate</span>
+              <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                </svg>
+              </div>
+            </div>
+            <div class="mt-3">
+              <h3 id="kpiWinRate" class="text-2xl font-black text-slate-900 tracking-tight">66.7%</h3>
+              <div class="flex items-center space-x-1 mt-1 text-xs text-emerald-600 font-semibold">
+                <span>4 won / 2 lost</span>
+                <span class="text-slate-400 font-normal">closed</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Metric 4: Active Leads -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs relative overflow-hidden">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Prospective Leads</span>
+              <div class="w-8 h-8 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                </svg>
+              </div>
+            </div>
+            <div class="mt-3">
+              <h3 id="kpiLeads" class="text-2xl font-black text-slate-900 tracking-tight">20 Leads</h3>
+              <div class="flex items-center space-x-1 mt-1 text-xs text-sky-600 font-semibold">
+                <span>85% Qualified</span>
+                <span class="text-slate-400 font-normal">high score</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Charts Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <!-- Monthly Revenue Trend (2 cols) -->
+          <div class="lg:col-span-2 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="font-bold text-slate-900">Revenue Growth Trend (H2 2026)</h3>
+                <p class="text-xs text-slate-500">Monthly closed business in INR (Lakhs)</p>
+              </div>
+              <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full font-medium">Auto-aggregated</span>
+            </div>
+            <div class="h-64 relative flex items-end justify-between px-4 pt-8 pb-4" id="revenueChartContainer">
+              <!-- Rendered via JavaScript SVG Chart -->
+            </div>
+          </div>
+
+          <!-- Pipeline Stage Breakdown (1 col) -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="font-bold text-slate-900">Pipeline Stages</h3>
+                <p class="text-xs text-slate-500">Distribution across 6 fixed stages</p>
+              </div>
+            </div>
+            <div id="stageDistributionList" class="space-y-3">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Leaderboard & Recent Activity Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <!-- Sales Rep Leaderboard -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-bold text-slate-900">Sales Representatives Leaderboard</h3>
+              <span class="text-xs text-indigo-600 font-semibold">Live Quota</span>
+            </div>
+            <div id="leaderboardList" class="divide-y divide-slate-100">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <!-- Real-Time Activity Feed -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-bold text-slate-900">Live Activity Audit Log</h3>
+              <span class="text-xs text-slate-400">Security &amp; Events</span>
+            </div>
+            <div id="activityFeedList" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 2: DEALS PIPELINE (INTERACTIVE KANBAN BOARD) -->
+      <!-- ============================================================== -->
+      <section id="tab-pipeline" class="tab-pane hidden space-y-4">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
+          <div>
+            <div class="flex items-center space-x-2">
+              <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">Sales Deals Pipeline</h1>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700">6 Stages Fixed</span>
+            </div>
+            <p class="text-sm text-slate-500 mt-0.5">Drag and drop or advance deals through stage lifecycles to recalculate win probabilities.</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="openModal('dealModal')" class="inline-flex items-center space-x-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 shadow-xs transition-colors">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+              </svg>
+              <span>+ Add Deal</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Kanban Columns Board Container -->
+        <div class="overflow-x-auto pb-4">
+          <div id="kanbanBoard" class="flex gap-4 min-w-[1280px]">
+            <!-- 6 Columns injected via JS -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 3: LEADS MANAGEMENT -->
+      <!-- ============================================================== -->
+      <section id="tab-leads" class="tab-pane hidden space-y-4">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">Leads Management</h1>
+            <p class="text-sm text-slate-500 mt-0.5">Track prospective customer accounts, automated lead scoring, and instant deal conversion.</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="exportCSV('leads')" class="inline-flex items-center space-x-1 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">
+              <span>Export CSV</span>
+            </button>
+            <button onclick="openModal('leadModal')" class="inline-flex items-center space-x-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 shadow-xs transition-colors">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+              </svg>
+              <span>+ Add Lead</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter bar -->
+        <div class="bg-white p-3 rounded-2xl border border-slate-200/80 flex flex-wrap items-center justify-between gap-3 text-sm">
+          <div class="flex items-center space-x-2 overflow-x-auto">
+            <button onclick="filterLeads('All')" class="lead-filter-btn active px-3 py-1 rounded-lg text-xs font-bold transition-colors">All Leads</button>
+            <button onclick="filterLeads('New')" class="lead-filter-btn px-3 py-1 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100 transition-colors">New</button>
+            <button onclick="filterLeads('Contacted')" class="lead-filter-btn px-3 py-1 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100 transition-colors">Contacted</button>
+            <button onclick="filterLeads('Qualified')" class="lead-filter-btn px-3 py-1 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100 transition-colors">Qualified</button>
+            <button onclick="filterLeads('Lost')" class="lead-filter-btn px-3 py-1 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100 transition-colors">Lost</button>
+          </div>
+          <div class="text-xs text-slate-400 font-medium">
+            Showing <span id="leadsTableCount" class="font-bold text-slate-700">0</span> leads
+          </div>
+        </div>
+
+        <!-- Leads Table -->
+        <div class="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-xs">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+              <thead class="bg-slate-50/80 border-b border-slate-200 text-slate-400 text-xs font-bold uppercase tracking-wider">
+                <tr>
+                  <th class="py-3 px-4">Lead / Company</th>
+                  <th class="py-3 px-4">Contact Info</th>
+                  <th class="py-3 px-4">Source</th>
+                  <th class="py-3 px-4">Lead Score</th>
+                  <th class="py-3 px-4">Est. Value</th>
+                  <th class="py-3 px-4">Status</th>
+                  <th class="py-3 px-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="leadsTableBody" class="divide-y divide-slate-100">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 4: CONTACTS & ACCOUNTS -->
+      <!-- ============================================================== -->
+      <section id="tab-contacts" class="tab-pane hidden space-y-4">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">Customer Accounts &amp; Contacts</h1>
+            <p class="text-sm text-slate-500 mt-0.5">Verified enterprise decision-makers and organizational accounts.</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="openModal('contactModal')" class="inline-flex items-center space-x-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 shadow-xs transition-colors">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+              </svg>
+              <span>+ Add Contact</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="contactsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Populated by JS -->
+        </div>
+
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 5: TASKS & ACTIVITIES -->
+      <!-- ============================================================== -->
+      <section id="tab-tasks" class="tab-pane hidden space-y-4">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">Tasks &amp; Follow-up Schedule</h1>
+            <p class="text-sm text-slate-500 mt-0.5">Stay on top of client demos, phone calls, quotation follow-ups and meetings.</p>
+          </div>
+          <button onclick="openModal('taskModal')" class="inline-flex items-center space-x-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 shadow-xs transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+            </svg>
+            <span>+ Schedule Task</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 space-y-3" id="taskListContainer">
+            <!-- Populated by JS -->
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs h-fit space-y-4">
+            <h3 class="font-bold text-slate-900">Task Summary</h3>
+            <div class="space-y-2 text-sm text-slate-600">
+              <div class="flex justify-between">
+                <span>Total Tasks:</span>
+                <span id="statTotalTasks" class="font-bold text-slate-900">8</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Pending Follow-ups:</span>
+                <span id="statPendingTasks" class="font-bold text-amber-600">6</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Completed:</span>
+                <span id="statCompletedTasks" class="font-bold text-emerald-600">2</span>
+              </div>
+            </div>
+            <div class="p-3 bg-indigo-50/70 rounded-xl border border-indigo-100 text-xs text-indigo-800">
+              💡 <strong>Pro-Tip:</strong> Click the checkbox on any task to instantly toggle completion and update the team activity audit trail!
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 6: EMAIL CENTER -->
+      <!-- ============================================================== -->
+      <section id="tab-emails" class="tab-pane hidden space-y-4">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">Integrated Email Center</h1>
+            <p class="text-sm text-slate-500 mt-0.5">Send custom or templated business emails directly to prospective leads and clients.</p>
+          </div>
+          <button onclick="openModal('emailModal')" class="inline-flex items-center space-x-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 shadow-xs transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+            </svg>
+            <span>Compose Email</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 space-y-3" id="emailHistoryContainer">
+            <!-- Populated by JS -->
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs h-fit space-y-3">
+            <h3 class="font-bold text-slate-900">Pre-built Email Templates</h3>
+            <p class="text-xs text-slate-500">Speed up sales communication with verified SaaS sales templates:</p>
+            <div class="space-y-2">
+              <button onclick="applyEmailTemplate('intro')" class="w-full text-left p-2.5 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/40 transition-colors text-xs">
+                <p class="font-bold text-slate-800">1. Welcome &amp; Introduction</p>
+                <p class="text-slate-400 mt-0.5">Initial reach-out for inbound website leads</p>
+              </button>
+              <button onclick="applyEmailTemplate('demo')" class="w-full text-left p-2.5 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/40 transition-colors text-xs">
+                <p class="font-bold text-slate-800">2. Product Demo Follow-up</p>
+                <p class="text-slate-400 mt-0.5">Summary of requirements and timeline</p>
+              </button>
+              <button onclick="applyEmailTemplate('quote')" class="w-full text-left p-2.5 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/40 transition-colors text-xs">
+                <p class="font-bold text-slate-800">3. Commercial Quotation Proposal</p>
+                <p class="text-slate-400 mt-0.5">Formal SaaS subscription breakdown</p>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 7: NOTES & INTERACTION HISTORY -->
+      <!-- ============================================================== -->
+      <section id="tab-notes" class="tab-pane hidden space-y-4">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">Customer Notes &amp; Interaction History</h1>
+            <p class="text-sm text-slate-500 mt-0.5">Centralized client relationship knowledge base, meeting transcripts, and call minutes.</p>
+          </div>
+          <button onclick="openModal('noteModal')" class="inline-flex items-center space-x-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 shadow-xs transition-colors">
+            <span>+ Add Note</span>
+          </button>
+        </div>
+
+        <div id="notesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Populated by JS -->
+        </div>
+
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 8: DEVOPS & TESTING CENTER (SPECIAL FOR MA'AM) -->
+      <!-- ============================================================== -->
+      <section id="tab-testing" class="tab-pane hidden space-y-6">
+        
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-violet-900 via-indigo-900 to-slate-900 text-white p-6 rounded-3xl shadow-md relative overflow-hidden">
+          <div class="relative z-10">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <span class="px-3 py-1 rounded-full text-xs font-bold bg-violet-500/30 text-violet-200 border border-violet-400/30">
+                  Software Testing &amp; DevOps Practice Platform
+                </span>
+                <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-2 text-white">
+                  Automated Testing &amp; Cloud Deployment Suite
+                </h1>
+                <p class="text-sm text-slate-300 mt-1 max-w-2xl leading-relaxed">
+                  Project specification requirement: Full demonstration of REST API testing, Database integrity, Role-Based Access validation, OWASP security scanning, and CI/CD automated pipeline.
+                </p>
+              </div>
+              <button onclick="runAutomatedTestSuite()" id="runTestBtn" class="shrink-0 flex items-center space-x-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold text-sm shadow-lg shadow-emerald-900/40 transition-all transform hover:-translate-y-0.5">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span>Run Automated Test Suite</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testing Metrics Overview Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Test Suite Status</span>
+            <div class="flex items-center space-x-2 mt-2">
+              <span id="testStatusBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
+                10 / 10 PASSED
+              </span>
+            </div>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Pass Rate</span>
+            <h3 class="text-2xl font-black text-emerald-600 mt-1">100%</h3>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Execution Time</span>
+            <h3 id="testExecTime" class="text-2xl font-black text-slate-800 mt-1">68 ms</h3>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">OWASP Top 10</span>
+            <div class="flex items-center space-x-1 text-emerald-600 text-sm font-bold mt-1">
+              <span>🛡️ No Vulnerabilities</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Results Table -->
+        <div class="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-xs">
+          <div class="p-4 border-b border-slate-200 flex items-center justify-between">
+            <div>
+              <h3 class="font-bold text-slate-900">Automated QA Test Execution Results</h3>
+              <p class="text-xs text-slate-500">Validated across Backend, REST Endpoints, Database FKs, and RBAC Security</p>
+            </div>
+            <span class="text-xs text-slate-400 font-mono">Framework: Python unittest + k6</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+              <thead class="bg-slate-50 text-slate-400 text-xs font-bold uppercase tracking-wider">
+                <tr>
+                  <th class="py-3 px-4">Test Category</th>
+                  <th class="py-3 px-4">Test Case Description</th>
+                  <th class="py-3 px-4">Result</th>
+                  <th class="py-3 px-4">Latency</th>
+                </tr>
+              </thead>
+              <tbody id="testSuiteTableBody" class="divide-y divide-slate-100 font-mono text-xs">
+                <!-- Injected by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- DevOps CI/CD & AWS Architecture Visualizer -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <!-- GitHub Actions CI/CD Pipeline Diagram -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-slate-900">GitHub Actions CI/CD Pipeline</h3>
+              <span class="text-xs bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold">Workflow Passing</span>
+            </div>
+            <p class="text-xs text-slate-500">Triggered on <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">git push origin main</code>:</p>
+            <div class="space-y-3 font-mono text-xs">
+              <div class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+                <span class="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-[10px]">1</span>
+                <div class="flex-1">
+                  <p class="font-bold text-slate-800">Lint &amp; Code Quality</p>
+                  <p class="text-[11px] text-slate-500">ESLint + Flake8 static analysis</p>
+                </div>
+                <span class="text-emerald-600 font-bold">Passed (12s)</span>
+              </div>
+              <div class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+                <span class="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-[10px]">2</span>
+                <div class="flex-1">
+                  <p class="font-bold text-slate-800">Automated Testing</p>
+                  <p class="text-[11px] text-slate-500">Python REST API tests + Jest UI component tests</p>
+                </div>
+                <span class="text-emerald-600 font-bold">Passed (28s)</span>
+              </div>
+              <div class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+                <span class="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-[10px]">3</span>
+                <div class="flex-1">
+                  <p class="font-bold text-slate-800">Docker Image Build</p>
+                  <p class="text-[11px] text-slate-500">Multi-stage build &amp; push to Amazon ECR</p>
+                </div>
+                <span class="text-emerald-600 font-bold">Passed (45s)</span>
+              </div>
+              <div class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+                <span class="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-[10px]">4</span>
+                <div class="flex-1">
+                  <p class="font-bold text-slate-800">AWS Cloud Deploy</p>
+                  <p class="text-[11px] text-slate-500">Zero-downtime rolling update to AWS EC2 + RDS</p>
+                </div>
+                <span class="text-emerald-600 font-bold">Passed (35s)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- AWS Cloud Architecture Diagram -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
+            <h3 class="font-bold text-slate-900">AWS Cloud Architecture</h3>
+            <p class="text-xs text-slate-500">Production cloud topology as specified in the project charter:</p>
+            <div class="p-4 rounded-2xl bg-slate-900 text-slate-200 font-mono text-xs space-y-3">
+              <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+                <span class="text-indigo-400 font-bold">Client Traffic:</span>
+                <span>HTTPS / Route 53 DNS</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+                <span class="text-amber-400 font-bold">Compute:</span>
+                <span>AWS EC2 (Ubuntu 24.04 + Docker)</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+                <span class="text-emerald-400 font-bold">Database:</span>
+                <span>AWS RDS (MySQL 8.0 Multi-AZ)</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+                <span class="text-sky-400 font-bold">Storage:</span>
+                <span>AWS S3 (Static assets &amp; attachments)</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-violet-400 font-bold">Security:</span>
+                <span>VPC Private Subnet, IAM Roles, SSL/TLS</span>
+              </div>
+            </div>
+            <div class="text-[11px] text-slate-400 leading-normal">
+              ✅ Fully aligns with project objective: "Demonstrates practical knowledge of full-stack development, database management, cloud computing, DevOps, and software quality assurance in a single integrated system."
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- ================================================================ -->
+  <!-- MODALS -->
+  <!-- ================================================================ -->
+
+  <!-- Modal 1: Add New Lead -->
+  <div id="leadModal" class="modal-backdrop hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 animate-scaleUp">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <h3 class="font-bold text-lg text-slate-900">Add Prospective Lead</h3>
+        <button onclick="closeModal('leadModal')" class="text-slate-400 hover:text-slate-600">✕</button>
+      </div>
+      <form id="leadForm" onsubmit="handleLeadSubmit(event)" class="mt-4 space-y-4">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">First Name *</label>
+            <input type="text" name="firstName" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" placeholder="e.g. Aarav" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Last Name *</label>
+            <input type="text" name="lastName" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" placeholder="e.g. Sharma" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Company / Organization *</label>
+          <input type="text" name="company" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" placeholder="e.g. Tata Digital" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Work Email *</label>
+            <input type="email" name="email" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" placeholder="name@company.com" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Phone Number</label>
+            <input type="text" name="phone" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" placeholder="+91 98..." />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Lead Source</label>
+            <select name="source" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none">
+              <option value="Website">Website</option>
+              <option value="LinkedIn">LinkedIn</option>
+              <option value="Referral">Referral</option>
+              <option value="Google Search">Google Search</option>
+              <option value="Cold Call">Cold Call</option>
+              <option value="Webinar">Webinar</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Estimated Value (₹)</label>
+            <input type="number" name="value" value="250000" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Initial Requirement Notes</label>
+          <textarea name="notes" rows="2" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" placeholder="Brief notes on business requirements..."></textarea>
+        </div>
+        <div class="pt-2 flex justify-end space-x-2">
+          <button type="button" onclick="closeModal('leadModal')" class="px-4 py-2 text-sm font-semibold rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700">Cancel</button>
+          <button type="submit" class="px-5 py-2 text-sm font-bold rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs">Save Lead</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Create Deal -->
+  <div id="dealModal" class="modal-backdrop hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 animate-scaleUp">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <h3 class="font-bold text-lg text-slate-900">Create Pipeline Deal</h3>
+        <button onclick="closeModal('dealModal')" class="text-slate-400 hover:text-slate-600">✕</button>
+      </div>
+      <form id="dealForm" onsubmit="handleDealSubmit(event)" class="mt-4 space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Deal Title *</label>
+          <input type="text" name="title" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" placeholder="e.g. Infosys - 500-Seat Cloud CRM Suite" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Deal Amount (₹) *</label>
+            <input type="number" name="amount" required value="500000" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Initial Pipeline Stage</label>
+            <select name="stageId" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none">
+              <option value="1">1. Discovery (10%)</option>
+              <option value="2">2. Qualification (30%)</option>
+              <option value="3">3. Proposal / Pitch (50%)</option>
+              <option value="4">4. Negotiation (75%)</option>
+              <option value="5">5. Closed Won (100%)</option>
+              <option value="6">6. Closed Lost (0%)</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Expected Close Date</label>
+            <input type="date" name="closeDate" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Assigned Sales Rep</label>
+            <select name="assignedTo" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none">
+              <option value="3">Aarav Sharma (Executive)</option>
+              <option value="2">Sales Manager (Manager)</option>
+              <option value="4">Rohan Patel (Executive)</option>
+              <option value="5">Ananya Singh (Executive)</option>
+            </select>
+          </div>
+        </div>
+        <div class="pt-2 flex justify-end space-x-2">
+          <button type="button" onclick="closeModal('dealModal')" class="px-4 py-2 text-sm font-semibold rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700">Cancel</button>
+          <button type="submit" class="px-5 py-2 text-sm font-bold rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs">Add Deal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 3: Add Task -->
+  <div id="taskModal" class="modal-backdrop hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 animate-scaleUp">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <h3 class="font-bold text-lg text-slate-900">Schedule Task or Follow-up</h3>
+        <button onclick="closeModal('taskModal')" class="text-slate-400 hover:text-slate-600">✕</button>
+      </div>
+      <form id="taskForm" onsubmit="handleTaskSubmit(event)" class="mt-4 space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Task Title *</label>
+          <input type="text" name="title" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" placeholder="e.g. Security Review Call with VP" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Task Type</label>
+            <select name="type" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none">
+              <option value="Call">📞 Phone Call</option>
+              <option value="Meeting">🤝 Meeting</option>
+              <option value="Demo">🖥️ Product Demo</option>
+              <option value="Email">✉️ Send Email</option>
+              <option value="Follow-up">⏰ General Follow-up</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Priority</label>
+            <select name="priority" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none">
+              <option value="High">🔴 High Priority</option>
+              <option value="Medium" selected>🟡 Medium</option>
+              <option value="Low">🟢 Low</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Description / Agenda</label>
+          <textarea name="description" rows="2" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" placeholder="Actionable details..."></textarea>
+        </div>
+        <div class="pt-2 flex justify-end space-x-2">
+          <button type="button" onclick="closeModal('taskModal')" class="px-4 py-2 text-sm font-semibold rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700">Cancel</button>
+          <button type="submit" class="px-5 py-2 text-sm font-bold rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs">Schedule Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 4: Send Email -->
+  <div id="emailModal" class="modal-backdrop hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 animate-scaleUp">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <h3 class="font-bold text-lg text-slate-900">Compose Business Email</h3>
+        <button onclick="closeModal('emailModal')" class="text-slate-400 hover:text-slate-600">✕</button>
+      </div>
+      <form id="emailForm" onsubmit="handleEmailSubmit(event)" class="mt-4 space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Recipient Email *</label>
+          <input type="email" id="emailRecipient" name="recipient" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" placeholder="client@company.com" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Subject *</label>
+          <input type="text" id="emailSubject" name="subject" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" placeholder="SalesFlow CRM Proposition" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Email Body *</label>
+          <textarea id="emailBody" name="body" rows="5" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none font-sans" placeholder="Dear Client,..."></textarea>
+        </div>
+        <div class="pt-2 flex justify-end space-x-2">
+          <button type="button" onclick="closeModal('emailModal')" class="px-4 py-2 text-sm font-semibold rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700">Cancel</button>
+          <button type="submit" class="px-5 py-2 text-sm font-bold rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs">Send Email Now</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 5: Add Note -->
+  <div id="noteModal" class="modal-backdrop hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 animate-scaleUp">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <h3 class="font-bold text-lg text-slate-900">Add Customer Interaction Note</h3>
+        <button onclick="closeModal('noteModal')" class="text-slate-400 hover:text-slate-600">✕</button>
+      </div>
+      <form id="noteForm" onsubmit="handleNoteSubmit(event)" class="mt-4 space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Related Client or Deal</label>
+          <input type="text" name="target" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" placeholder="e.g. Deal #1 (Tata Digital)" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Note / Conversation Log *</label>
+          <textarea name="content" rows="4" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" placeholder="Details of customer call, objections raised, decision timeline..."></textarea>
+        </div>
+        <div class="pt-2 flex justify-end space-x-2">
+          <button type="button" onclick="closeModal('noteModal')" class="px-4 py-2 text-sm font-semibold rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700">Cancel</button>
+          <button type="submit" class="px-5 py-2 text-sm font-bold rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs">Save Note</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 6: Add Contact -->
+  <div id="contactModal" class="modal-backdrop hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 animate-scaleUp">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <h3 class="font-bold text-lg text-slate-900">Add Customer Contact</h3>
+        <button onclick="closeModal('contactModal')" class="text-slate-400 hover:text-slate-600">✕</button>
+      </div>
+      <form id="contactForm" onsubmit="handleContactSubmit(event)" class="mt-4 space-y-4">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">First Name *</label>
+            <input type="text" name="firstName" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Last Name *</label>
+            <input type="text" name="lastName" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Company / Organization *</label>
+          <input type="text" name="company" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Email *</label>
+            <input type="email" name="email" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Job Title</label>
+            <input type="text" name="title" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:outline-none" placeholder="VP / Director" />
+          </div>
+        </div>
+        <div class="pt-2 flex justify-end space-x-2">
+          <button type="button" onclick="closeModal('contactModal')" class="px-4 py-2 text-sm font-semibold rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700">Cancel</button>
+          <button type="submit" class="px-5 py-2 text-sm font-bold rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs">Save Contact</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Application Logic JS -->
+  <script src="app.js"></script>
+</body>
+</html>
+

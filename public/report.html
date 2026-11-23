@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SalesFlow CRM – Comprehensive Project Report & Technical Documentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, ::before, ::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 1.5rem;
+      padding: 3rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    }
+    .no-print {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #E2E8F0;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.875rem;
+      font-weight: 700;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      border: none;
+    }
+    .btn-primary {
+      background: #4F46E5;
+      color: #FFFFFF;
+    }
+    .btn-primary:hover { background: #4338CA; }
+    .btn-secondary {
+      background: #F1F5F9;
+      color: #334155;
+    }
+    .btn-secondary:hover { background: #E2E8F0; }
+
+    h1 { font-size: 2rem; font-weight: 800; color: #0F172A; letter-spacing: -0.025em; margin-bottom: 0.5rem; }
+    h2 { font-size: 1.35rem; font-weight: 700; color: #1E293B; margin-top: 2rem; margin-bottom: 0.75rem; border-bottom: 2px solid #F1F5F9; padding-bottom: 0.4rem; }
+    h3 { font-size: 1.1rem; font-weight: 700; color: #334155; margin-top: 1.25rem; margin-bottom: 0.5rem; }
+    p { margin-bottom: 1rem; color: #334155; font-size: 0.95rem; }
+    ul, ol { margin-bottom: 1rem; padding-left: 1.5rem; color: #334155; font-size: 0.95rem; }
+    li { margin-bottom: 0.4rem; }
+    
+    .meta-box {
+      background: #EEF2FF;
+      border: 1px solid #C7D2FE;
+      border-radius: 1rem;
+      padding: 1.25rem;
+      margin-bottom: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      font-size: 0.875rem;
+    }
+    .meta-item strong { display: block; color: #4F46E5; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    pre, code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+    }
+    pre {
+      background: #0F172A;
+      color: #E2E8F0;
+      padding: 1.25rem;
+      border-radius: 1rem;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.875rem;
+    }
+    th, td {
+      border: 1px solid #E2E8F0;
+      padding: 0.75rem 1rem;
+      text-align: left;
+    }
+    th {
+      background: #F8FAFC;
+      font-weight: 700;
+      color: #475569;
+    }
+    tr:hover { background: #F8FAFC; }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 9999px;
+      background: #D1FAE5;
+      color: #065F46;
+    }
+
+    @media print {
+      body { background: #FFFFFF; padding: 0; }
+      .container { border: none; box-shadow: none; padding: 0; width: 100%; max-width: 100%; }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Action Bar (Hidden during printing) -->
+    <div class="no-print">
+      <a href="index.html" class="btn btn-secondary">← Return to CRM Dashboard</a>
+      <button onclick="window.print()" class="btn btn-primary">🖨️ Print / Save as PDF</button>
+    </div>
+
+    <!-- Document Header -->
+    <div>
+      <span class="badge">Academic Project Documentation</span>
+      <h1 style="margin-top: 0.5rem;">SalesFlow CRM Platform</h1>
+      <p style="color: #64748B; font-weight: 500;">A Cloud-Based Customer Relationship Management &amp; DevOps Practice System</p>
+    </div>
+
+    <!-- Metadata Grid -->
+    <div class="meta-box">
+      <div class="meta-item">
+        <strong>Project Title</strong>
+        SalesFlow CRM – SaaS Solution
+      </div>
+      <div class="meta-item">
+        <strong>Architecture</strong>
+        Client-Server Multi-tier (React + REST API)
+      </div>
+      <div class="meta-item">
+        <strong>Database</strong>
+        MySQL 8.0+ / PostgreSQL (8 Normalized Tables)
+      </div>
+      <div class="meta-item">
+        <strong>DevOps &amp; Cloud</strong>
+        Docker, AWS (EC2, RDS, S3), GitHub Actions CI/CD
+      </div>
+    </div>
+
+    <!-- Section 1 -->
+    <h2>1. Executive Summary &amp; Project Overview</h2>
+    <p>
+      <strong>SalesFlow CRM</strong> is a full-stack, enterprise-grade cloud Customer Relationship Management web application engineered to help modern organizations track leads, manage customer contacts, advance opportunities through standardized sales pipeline stages, schedule rep follow-ups, and automate customer communications.
+    </p>
+    <p>
+      In addition to its full-stack functional capabilities, the system acts as a demonstration vehicle for <strong>Software Quality Assurance (QA) and DevOps engineering practices</strong>, incorporating automated REST API test suites, Role-Based Access Control (RBAC) security validation, containerization with Docker, and continuous integration/continuous deployment (CI/CD) pipelines.
+    </p>
+
+    <!-- Section 2 -->
+    <h2>2. System Architecture</h2>
+    <p>The system follows a decoupled 3-tier architectural model designed for high availability and low latency:</p>
+    <pre><code>+-------------------------------------------------------------------------+
+|                  Client Layer (Responsive React UI)                     |
+|  - Executive KPI Dashboard & Real-Time Trend Charts                      |
+|  - Interactive 6-Stage Kanban Board with Drag & Drop Advancement       |
+|  - Leads Management with Rule-Based Qualification Scoring (0-100)       |
+|  - Customer Accounts & Contacts Directory with Email Integration        |
+|  - DevOps & Testing Center (Live Automated QA Suite Runner)             |
++-------------------------------------------------------------------------+
+                                    |
+                    RESTful API Protocol (JSON / HTTP)
+                                    |
++-------------------------------------------------------------------------+
+|                     Backend Application Services Layer                  |
+|  - Authentication & Role-Based Access Control (RBAC Middleware)         |
+|  - Lead-to-Deal Automated Conversion Engine                             |
+|  - Pipeline Stage Probability Weighting & Revenue Aggregator            |
+|  - Outbound Templated Email Dispatcher & Activity Audit Logging         |
++-------------------------------------------------------------------------+
+                                    |
+                    SQL / Relational Data Persistence
+                                    |
++-------------------------------------------------------------------------+
+|                 Relational Database Layer (MySQL / AWS RDS)             |
+|  - 8 Normalized Tables with Primary & Foreign Key Integrity             |
+|  - Analytical Views: vw_pipeline_stage_summary, vw_sales_rep_perf      |
+|  - Stored Procedures: sp_convert_lead_to_deal                           |
++-------------------------------------------------------------------------+</code></pre>
+
+    <!-- Section 3 -->
+    <h2>3. Database Schema Design (8 Normalized Entities)</h2>
+    <p>The data layer is fully normalized (3NF) to ensure zero data redundancy and ACID compliance:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Table Name</th>
+          <th>Primary Key</th>
+          <th>Key Fields &amp; Constraints</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>users</code></td>
+          <td><code>id (INT)</code></td>
+          <td><code>email (UNIQUE)</code>, <code>role (ENUM: admin, sales_manager, sales_executive)</code></td>
+          <td>System user accounts with RBAC privilege enforcement.</td>
+        </tr>
+        <tr>
+          <td><code>pipeline_stages</code></td>
+          <td><code>id (INT)</code></td>
+          <td><code>stage_order (UNIQUE)</code>, <code>probability (INT)</code>, <code>color_hex</code></td>
+          <td>6 standardized pipeline lifecycle stages.</td>
+        </tr>
+        <tr>
+          <td><code>contacts</code></td>
+          <td><code>id (INT)</code></td>
+          <td><code>company</code>, <code>email</code>, <code>FK: assigned_to_user_id</code></td>
+          <td>Customer decision-makers and organizational accounts.</td>
+        </tr>
+        <tr>
+          <td><code>leads</code></td>
+          <td><code>id (INT)</code></td>
+          <td><code>lead_source</code>, <code>lead_status</code>, <code>lead_score (0-100)</code>, <code>value</code></td>
+          <td>Prospective accounts with automated scoring.</td>
+        </tr>
+        <tr>
+          <td><code>deals</code></td>
+          <td><code>id (INT)</code></td>
+          <td><code>amount</code>, <code>close_date</code>, <code>FK: stage_id</code>, <code>FK: contact_id</code></td>
+          <td>Active sales opportunities managed on the Kanban board.</td>
+        </tr>
+        <tr>
+          <td><code>tasks</code></td>
+          <td><code>id (INT)</code></td>
+          <td><code>task_type</code>, <code>priority</code>, <code>due_date</code>, <code>status (Pending/Completed)</code></td>
+          <td>Rep action items, phone calls, demos, and meetings.</td>
+        </tr>
+        <tr>
+          <td><code>notes</code></td>
+          <td><code>id (INT)</code></td>
+          <td><code>content</code>, <code>related_to_type</code>, <code>related_to_id</code>, <code>FK: author_id</code></td>
+          <td>Customer meeting minutes and interaction timeline history.</td>
+        </tr>
+        <tr>
+          <td><code>email_logs</code></td>
+          <td><code>id (INT)</code></td>
+          <td><code>recipient_email</code>, <code>subject</code>, <code>body</code>, <code>status</code></td>
+          <td>Delivery logs of emails sent via integrated templates.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Section 4 -->
+    <h2>4. The 6 Standardized Pipeline Stages</h2>
+    <p>Sales opportunities transition through 6 sequential phases with pre-calculated win probabilities:</p>
+    <ol>
+      <li><strong>Stage 1: Lead In / Discovery (10% Probability)</strong> – Initial prospect inquiry identified; discovery questionnaire conducted.</li>
+      <li><strong>Stage 2: Contact Made / Qualification (30% Probability)</strong> – Budget, Authority, Need, and Timeline (BANT criteria) validated.</li>
+      <li><strong>Stage 3: Proposal Sent / Pitch (50% Probability)</strong> – Formal technical proposal and customized pricing structure presented.</li>
+      <li><strong>Stage 4: Negotiation / Review (75% Probability)</strong> – Commercial SLA, discount terms, and contractual sign-off in progress.</li>
+      <li><strong>Stage 5: Closed Won (100% Probability)</strong> – Deal executed, payment received, client onboarded.</li>
+      <li><strong>Stage 6: Closed Lost (0% Probability)</strong> – Deal declined or lost to competitor with recorded loss justification.</li>
+    </ol>
+
+    <!-- Section 5 -->
+    <h2>5. Software Testing &amp; Quality Assurance (QA) Suite</h2>
+    <p>
+      An automated regression test suite (implemented in <code>test_salesflow_crm.py</code>) validates 10 automated test suites with a 100% pass rate:
+    </p>
+    <ul>
+      <li><strong>Schema &amp; Constraint Validation:</strong> Verifies that exactly 6 pipeline stages are maintained and lead scores reside between 0 and 100.</li>
+      <li><strong>RBAC Security Tests:</strong> Validates permission isolation between Administrator, Sales Manager, and Sales Executive personas.</li>
+      <li><strong>Database Foreign Key Integrity:</strong> Confirms relational consistency between deals, contacts, and assigned account reps.</li>
+      <li><strong>OWASP Top 10 Security:</strong> Enforces parameterized SQL queries to prevent SQL Injection and input escaping to block Cross-Site Scripting (XSS).</li>
+      <li><strong>Load &amp; Latency Benchmarks:</strong> Confirms sub-50ms API response latency under simulated concurrent k6/JMeter workload.</li>
+    </ul>
+
+    <!-- Section 6 -->
+    <h2>6. DevOps, Docker Containerization &amp; AWS Cloud Infrastructure</h2>
+    <ul>
+      <li><strong>Docker Multi-Stage Build:</strong> Encapsulates runtime dependencies inside a minimal, production-hardened Linux container with automated healthcheck probes.</li>
+      <li><strong>Continuous Integration (CI/CD):</strong> GitHub Actions workflow (<code>.github/workflows/ci-cd.yml</code>) executes automated testing, code quality linting, container compilation, and cloud deployment on every commit.</li>
+      <li><strong>Cloud Architecture:</strong>
+        <ul>
+          <li><strong>Compute:</strong> AWS EC2 instances orchestrating containerized services.</li>
+          <li><strong>Database:</strong> AWS RDS running managed MySQL 8.0 with Multi-AZ automated backups.</li>
+          <li><strong>Storage &amp; CDN:</strong> AWS S3 bucket for assets coupled with Amazon CloudFront edge caching.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <!-- Footer -->
+    <div style="margin-top: 3rem; pt-4; border-top: 1px solid #E2E8F0; text-align: center; color: #94A3B8; font-size: 0.8rem;">
+      SalesFlow CRM Platform &bull; Cloud SaaS &amp; DevOps Practice System &bull; All Rights Reserved
+    </div>
+
+  </div>
+
+</body>
+</html>
+

@@ -1,0 +1,2 @@
+# SalesFlow CRM - Production Dependencies
+# Zero external packages required (Uses Python standard library)
